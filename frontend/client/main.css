@@ -1,0 +1,16 @@
+/* CSS declarations go here */
+body {
+    font-size: 16px;
+}
+span.send {
+    color: red;
+}
+span.receive {
+    color: green;
+}
+div.hash {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

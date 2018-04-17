@@ -1,0 +1,74 @@
+<body>
+<script>
+function copyAdress() {
+ /* Get the text field */
+  var copyText = document.getElementById("ping_adress");
+
+  /* Select the text field */
+  copyText.select();
+
+  /* Copy the text inside the text field */
+  document.execCommand("Copy");
+
+  /* Alert the copied text */
+  $("#copy_button").html("Copied!")
+}
+$(function() {
+document.getElementById('ping_adress').readOnly = true;
+});
+</script>
+<div class='jumbotron'>
+    <div class="container">
+	<h1 class="display-3">Nano Bounce!</h1>
+	<p>
+	Try out nano by sending nano to the adress below and <span class="font-italic">instantly</span> get it back to your account!
+	</p>
+    </div>
+</div>
+  <div class="container">
+    <div class="card-deck mb-3 text-center">
+        <div class="card md-12 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    Send nano to this address:
+                </h4>
+            </div>
+            <div class="card-body">
+                <h2 class="text-info" style='font-size: 30px'>
+                <input type='text'
+ 		    class='text-info w-100 text-center'
+		    id='ping_adress'
+          	    style="border: none;"
+     		    value="xrb_1ping4osft66sqr1jmkf9bc1rfzkwtcqh9mkowzbgkfjp4yte5wph4t6hxo1" />
+                </h2>
+                <button style="width: 200px" type="button" class="btn btn-primary" onclick="copyAdress()" id='copy_button'>Copy to clipboard</button>
+            </div>
+        </div>
+    </div>
+      <h3>Latest transactions</h3>
+    <table class='table table-bordered table-hover'>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Account</th>
+                <th>Amount</th>
+                <th>Hash</th>
+            </tr>
+        </thead>
+        <tbody>
+      {{#each blocks}}
+        {{> block}}
+      {{/each}}
+        </tbody>
+    </table>
+  </div>
+</body>
+
+<template name="block">
+    <tr>
+        <td>{{type}}</td>
+        <td><a href="https://www.nanode.co/account/{{account}}">{{account}}</a></td>
+        <td><code><span class="{{type}}" style="">{{amount}}</span></code></td>
+        <td><div class="hash"><a href="https://www.nanode.co/block/{{hash}}">{{hash}}</a></div></td>
+    </tr>
+</template>

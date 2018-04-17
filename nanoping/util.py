@@ -1,6 +1,18 @@
 import requests
 import json
 
+def rai_to_raw(rai):
+    return int(rai) * 1000000000000000000000000L
+
+def raw_to_rai(raw):
+    return int(int(raw) / 1000000000000000000000000L)
+
+def raw_to_nanostr(raw, transaction_type='receive'):
+    sign = '+'
+    if transaction_type == 'send':
+        sign = '-'
+    return "%s%.6f" % (sign, float(raw_to_rai(raw)) / 1000000)
+
 class RPC(object):
     dry_run = False
 
@@ -45,6 +57,23 @@ class RPC(object):
         }
         return self.rpc_call(data)
 
+    def accounts_create(self, wallet, count):
+        data = \
+        {
+          "action": "accounts_create",
+          "wallet": wallet,
+          "count": count,
+        }
+        return self.rpc_call(data)
+
+    def account_list(self, wallet):
+        data = \
+        {
+          "action": "account_list",
+          "wallet": wallet
+        }
+        return self.rpc_call(data)
+
     def account_balance(self, account):
         data = \
         {
@@ -52,6 +81,7 @@ class RPC(object):
           "account": account,
         }
         return self.rpc_call(data)
+
     def send(self, wallet, source, destination, amount, transaction_id):
         if not isinstance(amount, basestring):
             amount = json.dumps(amount)
@@ -65,5 +95,6 @@ class RPC(object):
             "id": transaction_id
         }
         return self.rpc_call(data)
+
     def custom_call(self, **kwargs):
         return self.rpc_call(kwargs)
